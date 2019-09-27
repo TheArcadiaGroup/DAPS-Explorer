@@ -4,7 +4,7 @@ logs
 
 # Config
 config/settings.js
-config/settings.json
+config/serverconfig.json
 
 # Compiled site
 dist/
