@@ -10,8 +10,7 @@ RUN apt-get update && \
 
 #COPY SRC
 RUN mkdir -p /DAPS/
-COPY /assets/react/ /DAPS/
-RUN rm /DAPS/config/*
+COPY /DAPS-Explorer/ /DAPS/
 
 #INSTALL NVM, NPM, NODE
 RUN wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash && \
