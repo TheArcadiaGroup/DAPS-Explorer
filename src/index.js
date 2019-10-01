@@ -6,12 +6,7 @@ import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={(props) => (
-    fakeAuth.isAuthenticated === true
-      ? <Component {...props} />
-      : <Redirect to={{
-          pathname: '/explorer/overview',
-          state: { from: props.location }
-        }} />
+    <Component {...props} />
   )} />
 )
 
