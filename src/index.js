@@ -6,19 +6,14 @@ import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={(props) => (
-    fakeAuth.isAuthenticated === true
-      ? <Component {...props} />
-      : <Redirect to={{
-          pathname: '/explorer/login',
-          state: { from: props.location }
-        }} />
+    <Component {...props} />
   )} />
 )
 
 const Root = document.getElementById("root") 
 Root? ReactDOM.render(<BrowserRouter>
                           <Switch>
-							              <Route path="/explorer/login" exact component={Login}/>
+							              <Route path="/explorer/overview" exact component={BlockExplorer}/>
                             <PrivateRoute path="/(\w+/|)(\w+/|)(.*|)" component={BlockExplorer}/>
                           </Switch>
                     </BrowserRouter>, Root) : false;

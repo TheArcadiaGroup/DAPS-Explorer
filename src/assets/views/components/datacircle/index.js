@@ -22,19 +22,6 @@ const DataCircle = (props) => {
                 </div>
             </div>);
 
-    if (data.header.includes("DIFFICULTY"))
-        return (
-            <div className={`DataCircle ${Style.ItemContainer} ${data.item[1]}`} style={props.style||{}}>
-                <div className={"DataCircleHeader " + Style.DetailUpperHalf}>
-                    <h3 className={"Title Blue " + Style.Title} >{data.header}</h3>
-                </div>
-                <div className={"DataCircleItem " + Style.DetailLowerHalf}>
-                    {props.header?
-                        <h2 className={`Blue ${Style.Data}`}>{data.item[0]}</h2>
-                        :<h4 className={Style.Data}>{data.item[0].toFixed(4)}</h4>}
-                </div>
-            </div>);
-
     return (
         <div className={`DataCircle ${Style.ItemContainer} ${data.item[1]}`} style={props.style||{}}>
             <div className={"DataCircleHeader " + Style.DetailUpperHalf}>

@@ -75,8 +75,8 @@ app.post('/auth', (req, res) => {
       "result":'',
   };
 
-  if (pwd !== 'Does Alice owe Bob 1 Million DAPS?')
-    json_data['status'] = 'fail';
+  // if (pwd !== 'Does Alice owe Bob 1 Million DAPS?')
+  //   json_data['status'] = 'fail';
 
   res.send(json_data);
 });
