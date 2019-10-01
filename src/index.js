@@ -9,7 +9,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
     fakeAuth.isAuthenticated === true
       ? <Component {...props} />
       : <Redirect to={{
-          pathname: '/explorer/login',
+          pathname: '/explorer/overview',
           state: { from: props.location }
         }} />
   )} />
@@ -18,7 +18,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 const Root = document.getElementById("root") 
 Root? ReactDOM.render(<BrowserRouter>
                           <Switch>
-							              <Route path="/explorer/login" exact component={Login}/>
+							              <Route path="/explorer/overview" exact component={Login}/>
                             <PrivateRoute path="/(\w+/|)(\w+/|)(.*|)" component={BlockExplorer}/>
                           </Switch>
                     </BrowserRouter>, Root) : false;
