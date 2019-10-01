@@ -18,7 +18,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 const Root = document.getElementById("root") 
 Root? ReactDOM.render(<BrowserRouter>
                           <Switch>
-							              <Route path="/explorer/overview" exact component={Login}/>
+							              <Route path="/explorer/overview" exact component={BlockExplorer}/>
                             <PrivateRoute path="/(\w+/|)(\w+/|)(.*|)" component={BlockExplorer}/>
                           </Switch>
                     </BrowserRouter>, Root) : false;
