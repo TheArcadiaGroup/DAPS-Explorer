@@ -58,7 +58,7 @@ const Actions = {
         },
         "DIFFICULTY": async () => {
             try {
-                return [Number(await (await fetch(hostUrl + 'api/getdifficulty')).json()).toFixed(4), "Green"]
+                return [Number(await (await fetch(hostUrl + 'api/getdifficulty')).json()).toFixed(), "Green"]
             } catch (err) { console.error("difficulty", err); return [null, "Red"]; }
         },
         "NETWORK STATUS": async () => {
