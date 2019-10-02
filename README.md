@@ -6,7 +6,7 @@ The Dapscoin block explorer.
 
 ### To start:
 
-1. Make sure configuration settings are correct in config/serverconfig.json
+1. Make sure configuration settings are correct in config/server/serverconfig.json
 2. Make sure wallet daemon is running (dapscoind -daemon)
 3. npm i && npm start
 

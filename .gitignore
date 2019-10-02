@@ -3,8 +3,8 @@ logs
 *.log
 
 # Config
-config/settings.js
-config/serverconfig.json
+# config/server/settings.js
+config/server/serverconfig.json
 
 # Compiled site
 dist/

@@ -63,7 +63,7 @@ module.exports = {
   resolve: {
     alias: {
       Components: path.resolve(__dirname, 'src/assets/views/components'),
-      Config: path.resolve(__dirname, 'config'),
+      Config: path.resolve(__dirname, 'config/client'),
       Pages: path.resolve(__dirname, 'src/assets/views/pages'),
       Actions: path.resolve(__dirname, 'src/assets/controller/actions'),
       Stylesheets: path.resolve(__dirname, 'src/assets/stylesheets'),

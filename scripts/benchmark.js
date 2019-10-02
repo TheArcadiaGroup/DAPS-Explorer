@@ -2,7 +2,7 @@ var mongoose = require('mongoose')
   , db = require('../lib/database')
   , Tx = require('../models/tx')  
   , Address = require('../models/address')  
-  , settings = require('../config/settings');
+  , settings = require('../config/server/settings');
 
 
 var COUNT = 5000; //number of blocks to index

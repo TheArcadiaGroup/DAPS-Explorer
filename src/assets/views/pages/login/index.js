@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Style from './style.css'
 import {Link, Redirect} from 'react-router-dom'
-const settings = require('../../../../../config/settings')
+const settings = require('Config/settings')
 const hostUrl = `http://${settings.address}${settings.port ? ':' + settings.port : ''}/`
 
 const fakeAuth = {

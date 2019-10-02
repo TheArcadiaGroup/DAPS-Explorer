@@ -1,6 +1,6 @@
 var express = require('express')
   , router = express.Router()
-  , settings = require('../config/settings')
+  , settings = require('../config/server/settings')
   , locale = require('../lib/locale')
   , db = require('../lib/database')
   , lib = require('../lib/explorer')
