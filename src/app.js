@@ -212,7 +212,7 @@ class BlockExplorer extends Component {
 
       <div className={"PageView " + Style.PageView}>
 
-        <StatusBar id="blockStatusBar" getData={Actions.getBlockDetailData} className={`StatusBar ${Style.StatusBar}`}
+        <StatusBar id="blockStatusBar" type="0" getData={Actions.getBlockDetailData} className={`StatusBar ${Style.StatusBar}` }
           lift={(blockstate) => { Object.keys(blockstate).forEach((key) => Object.assign(this.state.blockStatus, { [key]: blockstate[key] })); 
           }} />
 
@@ -247,7 +247,7 @@ class BlockExplorer extends Component {
 
         </div>
 
-        <StatusBar id="networkStatusBar" getData={Actions.getNetworkDetailData} className={`StatusBar ${Style.StatusBar}`}
+        <StatusBar id="networkStatusBar" type="1" getData={Actions.getNetworkDetailData} className={`StatusBar ${Style.StatusBar}`}
           // lift={(netstate) => { Object.keys(netstate).forEach((key) => Object.assign(this.state.netStatus, { [key]: netstate[key] })) }} />
           lift={(netstate) => { this.setState({netStatus: netstate}) }} />
       </div>
