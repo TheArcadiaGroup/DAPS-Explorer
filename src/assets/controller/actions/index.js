@@ -118,7 +118,7 @@ const Actions = {
                 "detailData": {
                     [`${date.toDateString()}`]: [date.toTimeString().match(/\d\d:\d\d:\d\d/g), "Yellow"],
                     "TOKENS GENERATED": [`${receivedBlock.moneysupply}`, "Yellow"],
-                    "BLOCK REWARD EARNED": [`${receivedBlock.numaudited * 1050}`, "Yellow"],
+                    "BLOCK REWARD EARNED": [`${receivedBlock.poscount * 1050}`, "Yellow"],
                     "DIFFICULTY": [`${receivedBlock.difficulty}`, "Yellow"],
                 },
                 "blockData": {
@@ -144,7 +144,7 @@ const Actions = {
                 // "raw": receivedBlock,
                 "poaStatus": /*(receivedBlock.minetype == 'PoS') ? "EXTRACTED MASTERNODE / STAKING" :*/ '',
                 "PosMessage": (receivedBlock.minetype == 'PoA') ? "ON THIS DATE AND TIME, THE DAPS CHAIN'S CURRENT SUPPLY WAS AUDITED,[SPLIT]AND THE POS BLOCK REWARDS ADD UP TO THE EXPECTED AMOUNT." : '',
-                "Audited": (receivedBlock.minetype == 'PoA') ? { " POS BLOCKS AUDITED": `${receivedBlock.numaudited}` } : ''
+                "Audited": (receivedBlock.minetype == 'PoA') ? { " POS BLOCKS AUDITED": `${receivedBlock.poscount}` } : ''
             }
         } catch (err) { console.error("block", error); return null }
         return await returnObj;
@@ -160,7 +160,7 @@ const Actions = {
                     "DATE": `${date.getDate() + '/' + (date.getMonth() + 1) + '/' +  date.getFullYear()}`,
                     "TIME": date.toTimeString().match(/\d\d:\d\d:\d\d/g),
                     "TOKENS GENERATED": `${receivedBlock.moneysupply}`,
-                    "BLOCK REWARD EARNED": `${receivedBlock.numaudited * 1050}`,
+                    "BLOCK REWARD EARNED": `${receivedBlock.poscount * 1050}`,
                     "DIFFICULTY": `${receivedBlock.difficulty}`,
                 },
                 "blockData": {
