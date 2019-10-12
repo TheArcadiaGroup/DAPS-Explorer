@@ -35,37 +35,37 @@ const Actions = {
         "header": {
             "BLOCK HEIGHT": async () => {
                 try {
-                    return [await (await fetch(hostUrl + 'api/getblockcount')).json(), ""]
+                    let coinstats = await (await fetch(hostUrl + `dapsapi/coinstats`)).json()
+                    return [coinstats.data.blockcount, ""]
                 } catch (err) {
-                    try {
-                        return [(await (await fetch(hostUrl + 'dapsapi/block/?limit=0&report=0')).json()).data.length, "Yellow"]
-                    } catch (err) { console.error("hashrate", err); return [null, "Red"]; }
+                    { console.error("blockcount", err); return [null, "Red"]; }
                 }
             }
         },
         "SUPPLY": async () => {
             try {
-                let height = await (await fetch(hostUrl + 'api/getblockcount')).json();
-                let hash = await (await fetch(hostUrl + `api/getblockhash?index=` + String(height))).text();
-                let data = await (await fetch(hostUrl + 'api/getblock?hash=' + hash)).json();
-                return [Math.ceil(data.moneysupply), "Green"]
+                let coinstats = await (await fetch(hostUrl + `dapsapi/coinstats`)).json()
+                return (coinstats.data.connections > 0 ? [Math.ceil(coinstats.data.supply), "Green"] : [null, "Red"])
             } catch (err) { console.error("supply", err); return [null, "Red"] }
         },
         "HASHRATE": async () => {
             try {
-                return [await (await fetch(hostUrl + 'api/getnetworkhashps')).json(), "Green"]
+                let coinstats = await (await fetch(hostUrl + `dapsapi/coinstats`)).json()
+                return (coinstats.data.connections > 0 ? [coinstats.data.hashrate, "Green"] : [null, "Red"])
             } catch (err) { console.error("hashrate", err); return [null, "Red"]; }
         },
         "DIFFICULTY": async () => {
             try {
-                return [Number(await (await fetch(hostUrl + 'api/getdifficulty')).json()).toFixed(), "Green"]
+                let coinstats = await (await fetch(hostUrl + `dapsapi/coinstats`)).json()
+                return (coinstats.data.connections > 0 ? [Number(coinstats.data.difficulty).toFixed(), "Green"]: [null, "Red"])
             } catch (err) { console.error("difficulty", err); return [null, "Red"]; }
         },
         "NETWORK STATUS": async () => {
             try {
-                return (await (await fetch(hostUrl + 'api/getconnectioncount')).json()) ?
+                let coinstats = await (await fetch(hostUrl + `dapsapi/coinstats`)).json()
+                return ( coinstats.data.connections > 0 ?
                     ["GOOD", "Green"]
-                    : ["CHAIN ERROR", "Red"]
+                    : ["CHAIN ERROR", "Red"])
             } catch (err) { console.error("netStat", err); return ["SERVER ERROR", "Red"]; }
         }
     },
@@ -242,13 +242,14 @@ const Actions = {
         },
         "NODES": async () => {
             try {
-                return [(await (await fetch(hostUrl + 'api/getconnectioncount')).json()) || 'error', "Green"]
+                let coinstats = await (await fetch(hostUrl + `dapsapi/coinstats`)).json()
+                return [coinstats.data.connections || 'error', "Green"]
             } catch (err) { console.error("nodes", err); return [null, "Red"]; }
         },
         "MASTER NODES": async () => {
             try {
-                let response = await (await fetch(hostUrl + 'api/getmasternodecount')).json()
-                return [(response.total != undefined) ? response.total : 'disconnected', "Green"]
+                let coinstats = await (await fetch(hostUrl + `dapsapi/coinstats`)).json()
+                return [(coinstats.data.masternodeconnections != undefined) ? coinstats.data.masternodeconnections : 'disconnected', "Green"]
             } catch (err) { console.error("mnodes", err); return [null, "Red"]; }
         },
         // "BITCOIN PRICE": async () => {
