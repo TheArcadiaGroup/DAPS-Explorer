@@ -33,7 +33,7 @@ const updateMongo = async (numToUpdate=0, log = true) => {
   if (log) console.log(chalk.blue('Refreshing local db with chaincoin api'))
   let updated = await updateDb(numToUpdate, log)
   if (log) console.log('Updated ', updated ? chalk.green(updated) : chalk.red(updated), 'blocks in ' +chalk.yellow(`${new Date(Date.now()-start).getSeconds()} seconds`))
-  setTimeout(() => updateMongo(300), 1 * 60 * 1000);
+  setTimeout(() => updateMongo(300), 1 * 15 * 1000);
 }
 
 setTimeout(() => updateMongo(), 3000)
