@@ -19,7 +19,7 @@ var BlockSchema = new Schema({
     previousblockhash: { type: String, lowercase: true },
     moneysupply: { type: Number, default: 0 },
     blocktype: { type: String },
-    numaudited: { type: Number, default: 0 },
+    poscount: { type: Number, default: 0 },
     minetype: { type: String },
     sortid: {type: Number}
 }, { id: false });

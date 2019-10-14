@@ -52,7 +52,6 @@ class Footer extends Component {
     }
 
     render() {
-        let masterPercent = 100 * parseInt(this.state.MasterNode) / parseInt(this.state.Node);
         if (this.state.Node == 0)
             return (<div className="Footer">
                         <div id="FooterInfo">
@@ -67,6 +66,7 @@ class Footer extends Component {
                    </div>
             );
         
+        let masterPercent = 100 * parseInt(this.state.MasterNode) / parseInt(this.state.Node);
         let stakingPercent = 100 - masterPercent;
         let stakingStyle = {
             width: String(stakingPercent) + '%'

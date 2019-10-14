@@ -105,7 +105,7 @@ class BlockExplorer extends Component {
         this.setState({ collecting: true })
         let newData = {}; 
         if (this.state.type == 'Genesis')
-          try { newData = await Actions[`getGenesisBlockDetail`]('000000e5df28c2bc6c5f0646f6ac3891c167210ef05dee46e3684fa74b1d7245') } catch (err) { }
+          try { newData = await Actions[`getGenesisBlockDetail`]('0000039a711dba61e12c29fb86542fa059e9616aafe9b4c61e065d393f31535e') } catch (err) { }
         else
           try { newData = await Actions[`get${this.state.type}Detail`](this.state.param) } catch (err) { }
 
