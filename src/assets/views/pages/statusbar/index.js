@@ -19,7 +19,6 @@ class StatusBar extends Component {
         this.updateAll()
         setInterval(() => this.updateAll(),
             props.type == "0" ? 15000 : 45000)
-
     }
 
     async get(label, func, type = 'data') {
