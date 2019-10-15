@@ -314,7 +314,13 @@ const Actions = {
             let response = await (await fetch(hostUrl + `dapsapi/block/?count=true&minetype='PoS'`)).json()
             return response.data
         } catch (err) { console.error("blockcount", err); return null; }
-    }
+    },
+    "getSeesawData": async () => {
+        try {
+            let coinstats = await (await fetch(hostUrl + `dapsapi/coinstats`)).json()
+             return [coinstats.data.connections, coinstats.data.masternodeconnections];
+        } catch (err) { console.error("seesawdata", err); return [0, 0]; }
+    },
 
 }
 

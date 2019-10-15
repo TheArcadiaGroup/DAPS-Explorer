@@ -1,15 +1,15 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Style from './style.css'
-
+import Actions from 'Actions'
 import ListBox from 'Components/listbox'
 
 class Footer extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            MasterNode: (props.data.data && props.data.data['MASTER NODES'] && props.data.data['MASTER NODES'][0]) || 0,
-            Node: (props.data.data && props.data.data['NODES'] && props.data.data['NODES'][0]) || 0,
+            MasterNode: 0,
+            Node: 0,
         }
 
         this.Links = {
@@ -42,15 +42,13 @@ class Footer extends Component {
                 <a key="twitter" href='https://twitter.com/DAPScoin' id='twitterlink' className='SocialLink' target="_blank" ><div id='twitter' /></a>,
             ]
         }
+        this.setSeesawData()
+        setInterval(() => this.setSeesawData(), 60000)
     }
-
-    componentWillReceiveProps(props) {
-        this.setState({
-            MasterNode: (props.data.data && props.data.data['MASTER NODES'] && props.data.data['MASTER NODES'][0]) || 0,
-            Node: (props.data.data && props.data.data['NODES'] && props.data.data['NODES'][0]) || 0,
-        });
+    setSeesawData() {   
+        Promise.resolve(Actions.getSeesawData()).then(data => this.setState({ Node: data[0], MasterNode: data[1] }))
     }
-
+     
     render() {
         if (this.state.Node == 0)
             return (<div className="Footer">

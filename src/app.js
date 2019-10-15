@@ -252,7 +252,7 @@ class BlockExplorer extends Component {
           lift={(netstate) => { this.setState({netStatus: netstate}) }} />
       </div>
 
-      <Footer data={this.state.netStatus}/>
+      <Footer />
     </div>
     )
   }
