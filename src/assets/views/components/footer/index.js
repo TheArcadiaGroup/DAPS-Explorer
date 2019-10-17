@@ -8,8 +8,8 @@ class Footer extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            MasterNode: 0,
-            Node: 0,
+            masternode_reward_ratio: 0,
+            masternode_count: 0
         }
 
         this.Links = {
@@ -46,11 +46,11 @@ class Footer extends Component {
         setInterval(() => this.setSeesawData(), 60000)
     }
     setSeesawData() {   
-        Promise.resolve(Actions.getSeesawData()).then(data => this.setState({ Node: data[0], MasterNode: data[1] }))
+        Promise.resolve(Actions.getSeesawData()).then(data => this.setState({ masternode_reward_ratio: data[0], masternode_count: data[1] }))
     }
      
     render() {
-        if (this.state.Node == 0)
+        if (this.state.masternode_reward_ratio == 0)
             return (<div className="Footer">
                         <div id="FooterInfo">
                         <ListBox id="FooterLinks" data={this.Links}/>
@@ -64,13 +64,14 @@ class Footer extends Component {
                    </div>
             );
         
-        let masterPercent = 100 * parseInt(this.state.MasterNode) / parseInt(this.state.Node);
-        let stakingPercent = 100 - masterPercent;
+        let masterPercent = this.state.masternode_reward_ratio;
+        let stakingPercent = 100 - this.state.masternode_reward_ratio;
+
         let stakingStyle = {
-            width: String(stakingPercent) + '%'
+            width: "calc(190px + " + String(stakingPercent) + "%" + " - 380px / 100 * " + String(stakingPercent) + ")" 
         };
         let masterStyle = {
-            width: String(masterPercent) + '%'
+            width: "calc(190px + " + String(masterPercent) + "%" + " - 380px / 100 * " + String(masterPercent) + ")" 
         };
 
         return (<div className="Footer">
@@ -81,18 +82,18 @@ class Footer extends Component {
                             STAKING NODES
                         </span>
                         <span id="StakingCount" className={`${Style.StakingCount}`}>
-                            {this.state.Node - this.state.MasterNode}
+                            ??
                         </span>
                         <span id="StakingPercent" className={`${Style.StakingPercent}`}>
-                            {String(stakingPercent.toFixed(4)) + '%'}
+                            {String(stakingPercent.toFixed(0)) + '%'}
                         </span>
                     </div>
                     <div id="MasterState" className={`${Style.MasterState}`} style={masterStyle}>
                         <span id="MasterPercent" className={`${Style.MasterPercent}`}>
-                            {String(masterPercent.toFixed(4)) + '%'}
+                            {String(masterPercent.toFixed(0)) + '%'}
                         </span>
                         <span id="MasterCount" className={`${Style.MasterCount}`}>
-                            {this.state.MasterNode}
+                            {this.state.masternode_count}
                         </span>
                         <span id="MasterTitle" className={`${Style.MasterTitle}`}>
                             MASTER NODES
