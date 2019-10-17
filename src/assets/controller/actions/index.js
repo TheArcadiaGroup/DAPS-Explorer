@@ -318,7 +318,7 @@ const Actions = {
     "getSeesawData": async () => {
         try {
             let coinstats = await (await fetch(hostUrl + `dapsapi/coinstats`)).json()
-             return [coinstats.data.connections, coinstats.data.masternodeconnections];
+             return [coinstats.data.masternode_reward_ratio, coinstats.data.masternodeconnections];
         } catch (err) { console.error("seesawdata", err); return [0, 0]; }
     },
 
