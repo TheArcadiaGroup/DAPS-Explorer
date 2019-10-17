@@ -66,11 +66,12 @@ class Footer extends Component {
         
         let masterPercent = this.state.masternode_reward_ratio;
         let stakingPercent = 100 - this.state.masternode_reward_ratio;
+
         let stakingStyle = {
-            width: String(stakingPercent) + '%'
+            width: "calc(190px + " + String(stakingPercent) + "%" + " - 380px / 100 * " + String(stakingPercent) + ")" 
         };
         let masterStyle = {
-            width: String(masterPercent) + '%'
+            width: "calc(190px + " + String(masterPercent) + "%" + " - 380px / 100 * " + String(masterPercent) + ")" 
         };
 
         return (<div className="Footer">
@@ -84,12 +85,12 @@ class Footer extends Component {
                             ??
                         </span>
                         <span id="StakingPercent" className={`${Style.StakingPercent}`}>
-                            {String(stakingPercent.toFixed(4)) + '%'}
+                            {String(stakingPercent.toFixed(0)) + '%'}
                         </span>
                     </div>
                     <div id="MasterState" className={`${Style.MasterState}`} style={masterStyle}>
                         <span id="MasterPercent" className={`${Style.MasterPercent}`}>
-                            {String(masterPercent.toFixed(4)) + '%'}
+                            {String(masterPercent.toFixed(0)) + '%'}
                         </span>
                         <span id="MasterCount" className={`${Style.MasterCount}`}>
                             {this.state.masternode_count}
