@@ -9,7 +9,9 @@ var CoinStatsSchema = new Schema({
   hashrate: { type: String, default: 'N/A' },
   supply: { type: String, default: "0" },
   connections: {type: Number, default: 0},
-  masternodeconnections: {type: Number, default: 0}
+  masternodeconnections: {type: Number, default: 0},
+  masternode_reward_ratio: {type: Number, default: 0},
+  staking_reward_ratio: {type: Number, default: 0}
 });
 
 CoinStatsSchema.plugin(mongooseAggregatePaginate);
