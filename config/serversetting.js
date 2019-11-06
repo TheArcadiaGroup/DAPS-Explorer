@@ -50,6 +50,7 @@ exports.coin = "DAPS";
 //Locale file
 exports.locale = "locale/en.json",
 
+exports.masternodecachecount = 60 * 4;
 
 //Menu items to display
 exports.display = {
