@@ -16,6 +16,7 @@ const express = require('express')
   , webpackMiddleWare = require("webpack-hot-middleware")(compiler)
   , chalk = require('chalk')
   , dbsync = require('./lib/updatedb')
+  , uredis = require('./lib/updateredis')
   , favicon = require('serve-favicon')
   , bodyParser = require('body-parser');
 
@@ -37,11 +38,21 @@ const updateMongo = async (numToUpdate=0, log = true) => {
 }
 
 setTimeout(() => updateMongo(), 3000)
+
+
+const updateCache = async (log = true) => {
+  if (log) console.log(chalk.blue('Refreshing redis cache with chaincoin api'));
+  await updateRedis(log);
+  setTimeout(() => updateCache(), 1 * 7 * 1000);
+}
+
+updateCache();
 // setInterval(() => updateMongo(300), 1 * 60 * 1000)
 
 // SERVER APP
 const app = express().use(helmet())
-
+var server = require('http').createServer(app);
+var io = require('socket.io')(server);
 // Middleware
 app.use(require("webpack-dev-middleware")(compiler, {
   noInfo: true,
@@ -128,9 +139,69 @@ app.set('theme', settings.theme);
 app.set('labels', settings.labels);
 app.use(favicon(path.join(__dirname, 'src/assets/images/favicon.ico')));
 
-app.listen(settings.port, (err) => console.log((!err) ?
+
+
+
+server.listen(settings.port, (err) => console.log((!err) ?
   chalk.green("Server Listening on: ") + chalk.yellow(settings.port)
-  : chalk.red("Server error: ") + err))
+  : chalk.red("Server error: ") + err));
+
+
+io.on('connection', (client) => {
+    broadcaststats =  async () => {
+      try {
+        let prevblockcount, prevsupply, prevdifficulty, prevhashrate, prevmasternoderewardratio, prevconnections, prevmaxmasternodeconnections, prevlastpoablock;
+        let blockcount = await uredis.client.get('blockcount');
+        let supply = await uredis.client.get('supply');
+        let difficulty = await uredis.client.get('difficulty');
+        let hashrate = await uredis.client.get('hashrate');
+        let connections = await uredis.client.get('connections');
+        let lastpoablock = await uredis.client.get('lastpoablock');
+        let maxmasternodeconnections = await uredis.client.get('maxmasternodeconnections');
+        let masternoderewardratio = await uredis.client.get('masternoderewardratio');
+
+        if (prevblockcount != blockcount || prevsupply != supply || prevdifficulty != difficulty || prevhashrate != hashrate || connections != connections) {
+          let blockstats = {
+            "blockcount": blockcount,
+            "supply": supply,
+            "difficulty": difficulty,
+            "hashrate": hashrate,
+            "connections": connections
+          }
+          io.emit('blockstats', blockstats);
+        }
+
+        if (prevlastpoablock != lastpoablock || prevmaxmasternodeconnections != maxmasternodeconnections || prevconnections != connections ) {
+          let networkstats = {
+            "lastpoablock": lastpoablock,
+            "nodes": connections,
+            "masternodes": maxmasternodeconnections,
+          }
+          io.emit('networkstats', networkstats);
+        }
+        
+        if (prevmasternoderewardratio != masternoderewardratio || prevmaxmasternodeconnections != masternodeconnections) {
+          let rewardstats = {
+            masternoderewardratio: masternoderewardratio,
+            masternodeconnections: maxmasternodeconnections
+          }
+          io.emit('rewardstats', rewardstats);
+        }
+        prevblockcount = blockcount;
+        prevsupply = supply;
+        prevdifficulty = difficulty;
+        prevhashrate = hashrate;
+        prevconnections = connections;
+        prevlastpoablock = lastpoablock;
+        prevmaxmasternodeconnections = maxmasternodeconnections;
+        prevmasternoderewardratio = masternoderewardratio;
+      } catch (err) { 
+        console.error(err); 
+      }
+    }
+    broadcaststats();
+    setInterval(broadcaststats, 7000);
+});
 
 console.log(express().get('labels'))
 

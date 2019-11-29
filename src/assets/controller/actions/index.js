@@ -1,6 +1,8 @@
 
 const settings = require('Config/settings')
 let hostUrl = settings.endpoint || `http://${settings.address}${settings.port ? ':' + settings.port : ''}/`
+import openSocket from 'socket.io-client';
+const  socket = openSocket(hostUrl);
 
 // if (settings.endpoint) {
 //     if (settings.port) {
@@ -14,6 +16,9 @@ console.log(settings.address + '\n');
 console.log(settings.port + '\n');
 
 const toAgeStr = (date) => {
+    if (date.getTime() == 0) {
+        return "Unconfirmed";
+    }
     let now = new Date(Date.now()),
         diff = Date.now() - date.getTime()
     let intervals = {
@@ -30,7 +35,19 @@ const toAgeStr = (date) => {
     return 'error'
 }
 
+function subscribeToBlockStats(cb) {
+  socket.on('blockstats', stats => cb(null, stats));
+}
+function subscribeToNetworkStats(cb) {
+    socket.on('networkstats', stats => cb(null, stats));
+}
+function subscribeToRewardStats(cb) {
+    socket.on('rewardstats', stats => cb(null, stats));
+}
 const Actions = {
+    subscribeToBlockStats, 
+    subscribeToNetworkStats, 
+    subscribeToRewardStats,
     "getBlockDetailData": {
         "header": {
             "BLOCK HEIGHT": async () => {
@@ -185,7 +202,7 @@ const Actions = {
             const type = receivedTx.vout[0].scriptPubKey.type
             returnObj = {
                 "detailData": {
-                    [date.toDateString()]: [date.toTimeString().match(/\d\d:\d\d:\d\d/g), "Yellow"],
+                    [`${date.getTime() != 0 ? date.toDateString() : "Unconfirmed"}`]: [date.getTime() != 0 ? date.toTimeString().match(/\d\d:\d\d:\d\d/g) : "", date.getTime() != 0 ? "Yellow" : "Red"],
                     "Confirmations": [
                         `${receivedTx.confirmations} of ${receivedTx.confirmationsneeded}`,
                         (receivedTx.confirmations >= receivedTx.confirmationsneeded) ? "Green"

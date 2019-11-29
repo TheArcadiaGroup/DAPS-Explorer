@@ -11,7 +11,8 @@ import Genesis from 'Pages/genesis'
 import TxDetail from 'Pages/txdetail'
 import ListPage from 'Pages/listpage'
 import OverviewPage from 'Pages/overviewpage'
-import StatusBar from 'Pages/statusbar'
+import NetworkStatusBar from 'Pages/networkstatusbar'
+import BlockStatusBar from 'Pages/blockstatusbar'
 
 import NavBar from 'Components/navbar'
 import Footer from 'Components/footer'
@@ -212,9 +213,8 @@ class BlockExplorer extends Component {
 
       <div className={"PageView " + Style.PageView}>
 
-        <StatusBar id="blockStatusBar" type="0" getData={Actions.getBlockDetailData} className={`StatusBar ${Style.StatusBar}` }
-          lift={(blockstate) => { Object.keys(blockstate).forEach((key) => Object.assign(this.state.blockStatus, { [key]: blockstate[key] })); 
-          }} />
+        <BlockStatusBar id="blockStatusBar" type="0" getData={Actions.getBlockDetailData} className={`StatusBar ${Style.StatusBar}` }
+          lift={(blockstate) => { this.setState({blockStatus: blockstate})}} />
 
         <div className={"CenterView " + Style.CenterView}>
           <SearchBar lib={this.state.lib} isMobile={this.state.isMobile} />
@@ -247,8 +247,7 @@ class BlockExplorer extends Component {
 
         </div>
 
-        <StatusBar id="networkStatusBar" type="1" getData={Actions.getNetworkDetailData} className={`StatusBar ${Style.StatusBar}`}
-          // lift={(netstate) => { Object.keys(netstate).forEach((key) => Object.assign(this.state.netStatus, { [key]: netstate[key] })) }} />
+        <NetworkStatusBar id="networkStatusBar" className={`StatusBar ${Style.StatusBar}`}
           lift={(netstate) => { this.setState({netStatus: netstate}) }} />
       </div>
 
