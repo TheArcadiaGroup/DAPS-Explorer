@@ -29,10 +29,12 @@ class NetworkStatusBar extends Component {
 
     render() {
         return (<div id={this.state.id} className={"StatusBar " + Style.Column}>
-            
-            <DataCircle data={{ header: "LAST POA BLOCK", item: this.state.lastpoablock }} class={"StatusBarHeader " + Style.Header} header={true} />
-            <DataCircle data={{ header: "NODES", item: this.state.nodes }} class={"StatusBarItem " + Style.Item} />
-            <DataCircle data={{ header: "MASTER NODES", item: this.state.masternodes }} class={"StatusBarItem " + Style.Item} />
+            {!(this.state.lastpoablock[0] == null && this.state.lastpoablock[1] == "") &&
+                <DataCircle data={{ header: "LAST POA BLOCK", item: this.state.lastpoablock }} class={"StatusBarHeader " + Style.Header} header={true} />}
+            {!(this.state.nodes[0] == null && this.state.nodes[1] == "") &&
+                <DataCircle data={{ header: "NODES", item: this.state.nodes }} class={"StatusBarItem " + Style.Item} />}
+            {!(this.state.masternodes[0] == null && this.state.masternodes[1] == "") &&
+                <DataCircle data={{ header: "MASTER NODES", item: this.state.masternodes }} class={"StatusBarItem " + Style.Item} />}
         </div>);
     }
 }

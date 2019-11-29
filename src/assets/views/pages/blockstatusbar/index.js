@@ -19,7 +19,7 @@ class BlockStatusBar extends Component {
             supply: [null, ""],
             difficulty: [null, ""],
             hashrate: [null, ""],
-            connections: [null, ""],
+            networkstatus: [null, ""],
         }
         this.lift = props.lift || ((state) => { })
         Actions.subscribeToBlockStats((err, stats) => this.setState({ 
@@ -33,12 +33,16 @@ class BlockStatusBar extends Component {
 
     render() {
         return (<div id={this.state.id} className={"StatusBar " + Style.Column}>
-            
-            <DataCircle data={{ header: "BLOCK HEIGHT", item: this.state.blockcount }} class={"StatusBarHeader " + Style.Header} header={true} />
-            <DataCircle data={{ header: "SUPPLY", item: this.state.supply }} class={"StatusBarItem " + Style.Item} />
-            <DataCircle data={{ header: "HASHRATE", item: this.state.hashrate }} class={"StatusBarItem " + Style.Item} />
-            <DataCircle data={{ header: "DIFFICULTY", item: this.state.difficulty }} class={"StatusBarItem " + Style.Item} />
-            <DataCircle data={{ header: "NETWORK STATUS", item: this.state.networkstatus }} class={"StatusBarItem " + Style.Item} />
+            {!(this.state.blockcount[0] == null && this.state.blockcount[1] == "") &&
+                <DataCircle data={{ header: "BLOCK HEIGHT", item: this.state.blockcount }} class={"StatusBarHeader " + Style.Header} header={true} />}
+            {!(this.state.supply[0] == null && this.state.supply[1] == "") &&
+                <DataCircle data={{ header: "SUPPLY", item: this.state.supply }} class={"StatusBarItem " + Style.Item} />}
+            {!(this.state.hashrate[0] == null && this.state.hashrate[1] == "") &&
+                <DataCircle data={{ header: "HASHRATE", item: this.state.hashrate }} class={"StatusBarItem " + Style.Item} />}
+            {!(this.state.difficulty[0] == null && this.state.difficulty[1] == "") &&
+                <DataCircle data={{ header: "DIFFICULTY", item: this.state.difficulty }} class={"StatusBarItem " + Style.Item} />}
+            {!(this.state.networkstatus[0] == null && this.state.networkstatus[1] == "") &&
+                <DataCircle data={{ header: "NETWORK STATUS", item: this.state.networkstatus }} class={"StatusBarItem " + Style.Item} />}
         </div>);
     }
 }
