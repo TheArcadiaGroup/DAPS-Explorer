@@ -11,6 +11,11 @@ class Footer extends Component {
             masternode_reward_ratio: 0,
             masternode_count: 0
         }
+        
+        Actions.subscribeToRewardStats((err, stats) => this.setState({ 
+            masternode_reward_ratio: stats.masternoderewardratio != null && stats.masternoderewardratio != "" ? stats.masternoderewardratio : 0,
+            masternode_count: stats.masternodeconnections != null && stats.masternodeconnections != "" ? stats.masternodeconnections : 0
+        }));
 
         this.Links = {
             headers: ["Company", "Learn", "Contact Us"],

@@ -1,6 +1,8 @@
 
 const settings = require('Config/settings')
 let hostUrl = settings.endpoint || `http://${settings.address}${settings.port ? ':' + settings.port : ''}/`
+import openSocket from 'socket.io-client';
+const  socket = openSocket(hostUrl);
 
 // if (settings.endpoint) {
 //     if (settings.port) {
@@ -33,7 +35,19 @@ const toAgeStr = (date) => {
     return 'error'
 }
 
+function subscribeToBlockStats(cb) {
+  socket.on('blockstats', stats => cb(null, stats));
+}
+function subscribeToNetworkStats(cb) {
+    socket.on('networkstats', stats => cb(null, stats));
+}
+function subscribeToRewardStats(cb) {
+    socket.on('rewardstats', stats => cb(null, stats));
+}
 const Actions = {
+    subscribeToBlockStats, 
+    subscribeToNetworkStats, 
+    subscribeToRewardStats,
     "getBlockDetailData": {
         "header": {
             "BLOCK HEIGHT": async () => {
