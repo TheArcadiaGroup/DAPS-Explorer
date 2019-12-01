@@ -10,16 +10,11 @@ class NetworkStatusBar extends Component {
         localStorage.clear()
         super(props);
         this.state = {
-            data: {},
-            header: {},
-            getData: props.getData || {},
-            getHeader: (props.getData) ? props.getData.header || {} : {},
             id: props.id || '',
             lastpoablock: [null, ""],
             nodes: [null, ""],
             masternodes: [null, ""],
         }
-        this.lift = props.lift || ((state) => { })
         Actions.subscribeToNetworkStats((err, stats) => this.setState({ 
             lastpoablock: (stats.lastpoablock != null && stats.lastpoablock != "") ? [stats.lastpoablock, ""] : [null, "Red"] ,
             nodes: (stats.nodes != null && stats.nodes != "") ?  [stats.nodes, "Green"] : [null, "Red"],

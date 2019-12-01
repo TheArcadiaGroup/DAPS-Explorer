@@ -10,10 +10,6 @@ class BlockStatusBar extends Component {
         localStorage.clear()
         super(props);
         this.state = {
-            data: {},
-            header: {},
-            getData: props.getData || {},
-            getHeader: (props.getData) ? props.getData.header || {} : {},
             id: props.id || '',
             blockcount: [null, ""],
             supply: [null, ""],
@@ -21,7 +17,6 @@ class BlockStatusBar extends Component {
             hashrate: [null, ""],
             networkstatus: [null, ""],
         }
-        this.lift = props.lift || ((state) => { })
         Actions.subscribeToBlockStats((err, stats) => this.setState({ 
             blockcount: stats.blockcount != null && stats.blockcount != "" ? [stats.blockcount, ""] : [null, "Red"] ,
             supply: stats.supply != null && stats.supply != "" ? [Math.ceil(stats.supply), "Green"] : [null, "Red"],

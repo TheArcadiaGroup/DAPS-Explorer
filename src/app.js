@@ -213,8 +213,7 @@ class BlockExplorer extends Component {
 
       <div className={"PageView " + Style.PageView}>
 
-        <BlockStatusBar id="blockStatusBar" type="0" getData={Actions.getBlockDetailData} className={`StatusBar ${Style.StatusBar}` }
-          lift={(blockstate) => { this.setState({blockStatus: blockstate})}} />
+        <BlockStatusBar id="blockStatusBar" className={`StatusBar ${Style.StatusBar}` } />
 
         <div className={"CenterView " + Style.CenterView}>
           <SearchBar lib={this.state.lib} isMobile={this.state.isMobile} />
@@ -247,8 +246,7 @@ class BlockExplorer extends Component {
 
         </div>
 
-        <NetworkStatusBar id="networkStatusBar" className={`StatusBar ${Style.StatusBar}`}
-          lift={(netstate) => { this.setState({netStatus: netstate}) }} />
+        <NetworkStatusBar id="networkStatusBar" className={`StatusBar ${Style.StatusBar}`} />
       </div>
 
       <Footer />
