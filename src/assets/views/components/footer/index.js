@@ -47,11 +47,6 @@ class Footer extends Component {
                 <a key="twitter" href='https://twitter.com/DAPScoin' id='twitterlink' className='SocialLink' target="_blank" ><div id='twitter' /></a>,
             ]
         }
-        this.setSeesawData()
-        setInterval(() => this.setSeesawData(), 60000)
-    }
-    setSeesawData() {   
-        Promise.resolve(Actions.getSeesawData()).then(data => this.setState({ masternode_reward_ratio: data[0], masternode_count: data[1] }))
     }
      
     render() {
