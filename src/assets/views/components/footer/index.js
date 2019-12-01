@@ -90,7 +90,7 @@ class Footer extends Component {
                     </div>
                     <div id="MasterState" className={`${Style.MasterState}`} style={masterStyle}>
                         <span id="MasterPercent" className={`${Style.MasterPercent}`}>
-                            {String(masterPercent.toFixed(0)) + '%'}
+                            {masterPercent + '%'}
                         </span>
                         <span id="MasterCount" className={`${Style.MasterCount}`}>
                             {this.state.masternode_count}
