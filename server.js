@@ -43,7 +43,7 @@ setTimeout(() => updateMongo(), 3000)
 const updateCache = async (log = true) => {
   if (log) console.log(chalk.blue('Refreshing redis cache with chaincoin api'));
   await updateRedis(log);
-  setTimeout(() => updateCache(), 1 * 7 * 1000);
+  setTimeout(() => updateCache(), 1 * 10 * 1000);
 }
 
 updateCache();
@@ -200,7 +200,7 @@ io.on('connection', (client) => {
       }
     }
     broadcaststats();
-    setInterval(broadcaststats, 7000);
+    setInterval(broadcaststats, 8000);
 });
 
 console.log(express().get('labels'))
