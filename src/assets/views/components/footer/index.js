@@ -7,16 +7,12 @@ import ListBox from 'Components/listbox'
 class Footer extends Component {
     constructor(props) {
         super(props);
+        this._isMounted = false;
         this.state = {
             masternode_reward_ratio: 0,
             masternode_count: 0
         }
         
-        Actions.subscribeToRewardStats((err, stats) => this.setState({ 
-            masternode_reward_ratio: stats.masternoderewardratio != null && stats.masternoderewardratio != "" ? stats.masternoderewardratio : 0,
-            masternode_count: stats.masternodeconnections != null && stats.masternodeconnections != "" ? stats.masternodeconnections : 0
-        }));
-
         this.Links = {
             headers: ["Company", "Learn", "Contact Us"],
             '0': [
@@ -49,6 +45,18 @@ class Footer extends Component {
         }
     }
      
+    componentDidMount() {
+        this._isMounted = true;
+        this._isMounted && 
+            Actions.subscribeToRewardStats((err, stats) => this.setState({ 
+                masternode_reward_ratio: stats.masternoderewardratio != null && stats.masternoderewardratio != "" ? stats.masternoderewardratio : 0,
+                masternode_count: stats.masternodeconnections != null && stats.masternodeconnections != "" ? stats.masternodeconnections : 0
+            }));
+    }
+    componentWillUnmount() {
+        this._isMounted = false;
+    }
+
     render() {
         if (this.state.masternode_reward_ratio == 0)
             return (<div className="Footer">
