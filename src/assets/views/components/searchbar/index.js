@@ -40,7 +40,7 @@ class SearchBar extends Component {
 
     async getData(string) {
         if (string.length) {
-            let promises = await Actions.getSearchPromises(string)
+            let promises = await Actions.getSearchPromises(string, this.props.url)
             if (promises && promises.tx)
                 promises.tx = promises.tx.map(pr => Promise.resolve(pr).then(async response => {
                     if (response.json) {
@@ -123,12 +123,13 @@ class SearchBar extends Component {
                     onBlur={this.handleFocus}
                 />
                 <div id="SearchIcon" />
-                {(keys.length) ?
+                {(this.state.string.length != 0) ?
                     <div id="SearchResult" style={{ visibility: this.state.visible ? 'visible' : 'hidden' }}>
-                        {Array.from(this.state.match.keys()).map(key =>
-                            <div>{this.state.links.get(key)}<br /></div>)}
-                    </div>
-                    : ''}
+                        {(keys.length) ? Array.from(this.state.match.keys()).map(key =>
+                            <div>{this.state.links.get(key)}<br /></div>) : 
+                            "No Results Found (Could your block or transaction ID still be processing on the blockchain? Wait a minute or two, then try again.)"}
+                    </div> : ""
+                 }
             </div>
         )
     }

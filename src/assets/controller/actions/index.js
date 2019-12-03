@@ -291,18 +291,33 @@ const Actions = {
         } catch (err) { console.error("getblockhash", err); return null; }
     },
 
-    "getSearchPromises": async (string) => {
+    "getSearchPromises": async (string, url) => {
         let returnObj = {}
+        let category = 0; // 0: all, 1: PoS, 2: PoA, 3: block, 4: tx
+        if (url.includes("/overview")) {
+            category = 0; 
+        } else if (url.includes("/Posblocks")) {
+            category = 1;
+        } else if (url.includes("/Poablocks")) {
+            category = 2;
+        } else if (url.includes("/genesis")) {
+            category = 3;
+        } else if (url.includes("/transactions")) {
+            category = 4;
+        } else if (url.includes("block")) {
+            category = 3;
+        } else if (url.includes("tx")) {
+            category = 4;
+        }
         if (string.length > 1)
             returnObj = {
                 tx: [
-                    fetch(hostUrl + `dapsapi/tx/?txid=$regex:.*${string}.*`),
+                    (category == 0 || category == 3) ? fetch(hostUrl + `dapsapi/tx/?txid=$regex:.*${string}.*`) : "",
                 ],
                 block: [
-                    fetch(hostUrl + `dapsapi/block/?hash=$regex:.*${string}.*`),
-                    (!isNaN(string)) ?
-                        fetch(hostUrl + `dapsapi/block/?height=${string}`)
-                        : new Promise(resolve => resolve(true))
+                     (category == 0 || category == 3) ? (fetch(hostUrl + `dapsapi/block/?hash=$regex:.*${string}.*`), (!isNaN(string)) ? fetch(hostUrl + `dapsapi/block/?height=${string}`) : new Promise(resolve => resolve(true))) :
+                      (category == 1) ? (fetch(hostUrl + `dapsapi/block/?minetype=PoS&hash=$regex:.*${string}.*`), (!isNaN(string)) ?fetch(hostUrl + `dapsapi/block/?height=${string}`) : new Promise(resolve => resolve(true))) :
+                      (category == 2) ? (fetch(hostUrl + `dapsapi/block/?minetype=PoA&hash=$regex:.*${string}.*`), (!isNaN(string)) ?fetch(hostUrl + `dapsapi/block/?height=${string}`) : new Promise(resolve => resolve(true))) : ""
                 ],
             }
         return returnObj

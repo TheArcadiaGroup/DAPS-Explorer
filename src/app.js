@@ -216,7 +216,7 @@ class BlockExplorer extends Component {
         <BlockStatusBar id="blockStatusBar" className={`StatusBar ${Style.StatusBar}` } />
 
         <div className={"CenterView " + Style.CenterView}>
-          <SearchBar lib={this.state.lib} isMobile={this.state.isMobile} />
+          <SearchBar lib={this.state.lib} isMobile={this.state.isMobile} url={this.props.match.url}/>
 
           <div className={"ScreenView " + Style.ScreenView}>
 
