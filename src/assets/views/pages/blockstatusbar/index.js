@@ -9,6 +9,8 @@ class BlockStatusBar extends Component {
     constructor(props) {
         localStorage.clear()
         super(props);
+        this._isMounted = false;
+
         this.state = {
             id: props.id || '',
             blockcount: [null, ""],
@@ -17,15 +19,22 @@ class BlockStatusBar extends Component {
             hashrate: [null, ""],
             networkstatus: [null, ""],
         }
-        Actions.subscribeToBlockStats((err, stats) => this.setState({ 
-            blockcount: stats.blockcount != null && stats.blockcount != "" ? [stats.blockcount, ""] : [null, "Red"] ,
-            supply: stats.supply != null && stats.supply != "" ? [Math.ceil(stats.supply), "Green"] : [null, "Red"],
-            hashrate: stats.hashrate != null && stats.hashrate != "" ? [stats.hashrate, "Green"] : [null, "Red"],
-            difficulty: stats.difficulty != null && stats.difficulty != "" ? [Number(stats.difficulty).toFixed(), "Green"] : [null, "Red"],
-            networkstatus: stats.connections != null && stats.connections > 0 ? ["GOOD", "Green"] : ["CHAIN ERROR", "Red"]
-          }));
+        
     }
-
+    componentDidMount() {
+        this._isMounted = true;
+        this._isMounted && 
+            Actions.subscribeToBlockStats((err, stats) => this.setState({ 
+                blockcount: stats.blockcount != null && stats.blockcount != "" ? [stats.blockcount, ""] : [null, "Red"] ,
+                supply: stats.supply != null && stats.supply != "" ? [Math.ceil(stats.supply), "Green"] : [null, "Red"],
+                hashrate: stats.hashrate != null && stats.hashrate != "" ? [stats.hashrate, "Green"] : [null, "Red"],
+                difficulty: stats.difficulty != null && stats.difficulty != "" ? [Number(stats.difficulty).toFixed(), "Green"] : [null, "Red"],
+                networkstatus: stats.connections != null && stats.connections > 0 ? ["GOOD", "Green"] : ["CHAIN ERROR", "Red"]
+            }));
+    }
+    componentWillUnmount() {
+        this._isMounted = false;
+    }
     render() {
         return (<div id={this.state.id} className={"StatusBar " + Style.Column}>
             {!(this.state.blockcount[0] == null && this.state.blockcount[1] == "") &&
