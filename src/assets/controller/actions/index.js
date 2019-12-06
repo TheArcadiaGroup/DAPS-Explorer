@@ -196,6 +196,7 @@ const Actions = {
     "getTxDetail": async (id) => {
         let returnObj = {}
         try {
+            console.log(id, (typeof id));
             const receivedTx = (typeof id == 'object') ?
                 id :
                 (await (await fetch(hostUrl + `dapsapi/tx/?txid=${id}&report=0`)).json()).data[0];
@@ -313,12 +314,14 @@ const Actions = {
         if (string.length > 1)
             returnObj = {
                 tx: [
-                    (category == 0 || category == 3) ? fetch(hostUrl + `dapsapi/tx/?txid=$regex:.*${string}.*`) : "",
+                    (category == 0 || category == 4) ? (await (await fetch(hostUrl + `dapsapi/tx/?txid=$regex:.*${string}.*`)).json()) : "",
+                    
                 ],
                 block: [
-                     (category == 0 || category == 3) ? (fetch(hostUrl + `dapsapi/block/?hash=$regex:.*${string}.*`), (!isNaN(string)) ? fetch(hostUrl + `dapsapi/block/?height=${string}`) : new Promise(resolve => resolve(true))) :
-                      (category == 1) ? (fetch(hostUrl + `dapsapi/block/?minetype=PoS&hash=$regex:.*${string}.*`), (!isNaN(string)) ?fetch(hostUrl + `dapsapi/block/?height=${string}`) : new Promise(resolve => resolve(true))) :
-                      (category == 2) ? (fetch(hostUrl + `dapsapi/block/?minetype=PoA&hash=$regex:.*${string}.*`), (!isNaN(string)) ?fetch(hostUrl + `dapsapi/block/?height=${string}`) : new Promise(resolve => resolve(true))) : ""
+                    await (await fetch(hostUrl + `dapsapi/block/?hash=$regex:.*${string}.*`)).json(),
+                     (category == 0 || category == 3) ? await (await fetch(hostUrl + `dapsapi/block/?hash=$regex:.*${string}.*`)).json() :
+                      (category == 1) ? await (await fetch(hostUrl + `dapsapi/block/?minetype=PoS&hash=$regex:.*${string}.*`)).json() :
+                      (category == 2) ? await (await fetch(hostUrl + `dapsapi/block/?minetype=PoA&hash=$regex:.*${string}.*`)).json() : ""
                 ],
             }
         return returnObj
