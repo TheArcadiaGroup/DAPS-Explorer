@@ -170,6 +170,7 @@ const Actions = {
         let returnObj = {}
         try {
             const receivedBlock = (await (await fetch(hostUrl + `dapsapi/block/?hash=${blockhash}&report=0`)).json()).data[0]
+            let blockcount = await (await fetch(hostUrl + 'api/getblockcount')).json();
             const date = new Date(receivedBlock.time * 1000);
             returnObj = {
                 "type": `${receivedBlock.minetype}`,
@@ -182,7 +183,7 @@ const Actions = {
                 },
                 "blockData": {
                     "HEIGHT": `${receivedBlock.height}`,
-                    "CONFIRMATIONS": `${receivedBlock.confirmations}`,
+                    "CONFIRMATIONS": `${blockcount - receivedBlock.height}`,
                     "HASH": `${receivedBlock.hash}`,
                     "SIZE": `${parseFloat(receivedBlock.size) / 1000} kb`
                 }
