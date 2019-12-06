@@ -15,6 +15,7 @@ class SearchBar extends Component {
             match: new Map(),
             // links: new Map(),
             visible: false,
+            bLoading: false
         }
     }
 
@@ -39,6 +40,7 @@ class SearchBar extends Component {
 
     async getData(string) {
         if (string.length) {
+            this.setState({bLoading: true});
             let res = await Actions.getSearchPromises(string, this.props.url)
             this.state.match.clear()
             if (res) {
@@ -58,6 +60,7 @@ class SearchBar extends Component {
                     });
                 
             } 
+            this.setState({bLoading: false})
             this.setState({})
         }
     }
@@ -108,7 +111,7 @@ class SearchBar extends Component {
                     onBlur={this.handleFocus}
                 />
                 <div id="SearchIcon" />
-                {(this.state.string.length != 0) ?
+                {(this.state.string.length != 0 && !this.state.bLoading) ?
                     <div id="SearchResult" style={{ visibility: this.state.visible ? 'visible' : 'hidden' }}>
                         {(keys.length) ? Array.from(this.state.match.keys()).map(key =>
                             <div key={key}>{this.makeLink(this.state.match.get(key))}<br /></div>) : 
