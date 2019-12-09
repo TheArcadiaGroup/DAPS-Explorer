@@ -222,7 +222,7 @@ const Actions = {
                         `${receivedTx.txfee}`
                     ]
                 },
-                "txPubkey" : receivedTx.txpubkey,
+                "txPubkey" : (receivedTx.vout[0].txpubkey != undefined && receivedTx.vout[0].txpubkey != null ? receivedTx.vout[0].txpubkey : ""),
                 "input": {
                     "headers": [receivedTx.vin.filter((vin) => vin.keyimage).length ? "Key Image" : ''],
                     ...receivedTx.vin.map((vin) => [`${vin.keyimage || ''}`])
