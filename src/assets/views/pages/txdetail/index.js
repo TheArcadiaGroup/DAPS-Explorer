@@ -56,7 +56,9 @@ class TxDetail extends Component {
                     let address = document.getElementById('address').value
                     let viewkey = document.getElementById('viewkey').value
                     let viewkey_bytes = bs58.decode(viewkey)
-                    let txPub = data.txPubkey
+                    if (data.privtxPubkey == "")
+                        return;
+                    let txPub = data.txPubkey;
                     txPub = txPub.match(/.{2}/g).reverse().join("")
                     
                     viewkey_bytes = viewkey_bytes.slice(1, viewkey_bytes.length - 5);
